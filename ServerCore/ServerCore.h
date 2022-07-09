@@ -2,6 +2,8 @@
 
 #include <utility>
 #include <string>
+#include <iosfwd>
+#include <vector>
 
 using trackTimeByKart = std::pair<int, double>;
 
@@ -14,6 +16,8 @@ public:
 	void Listen();
 	trackTimeByKart EvaluateRaceSummary(std::string filePath);
 
+protected:
+	std::vector<trackTimeByKart> ExtractInfoFromFile(std::ifstream& stream);
 private:
 	trackTimeByKart bestLap;
 };
