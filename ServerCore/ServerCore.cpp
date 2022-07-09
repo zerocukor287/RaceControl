@@ -12,3 +12,7 @@ ServerCore::ServerCore() {
 void ServerCore::Listen() {
 
 }
+
+trackTimeByKart ServerCore::EvaluateRaceSummary(std::string /*filePath*/) {
+	return {4, 54.321};
+}
