@@ -8,6 +8,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <map>
+#include <cassert>
 
 ServerCore::ServerCore() {
 
@@ -48,15 +50,18 @@ static double convertToSeconds(const std::string& date) {
 }
 
 trackTimeByKart ServerCore::EvaluateRaceSummary(std::string filePath) {
+	trackTimeByKart bestLap {0, std::numeric_limits<double>::max()};
 	try {
 		std::ifstream fileStream(filePath, std::ifstream::in);
 		auto lapTimes = ExtractInfoFromFile(fileStream);
 		fileStream.close();
+
+		bestLap = GetBestLap(lapTimes);
 	}
 	catch (std::exception& e) {
 		std::cout << e.what();
 	}
-	return {4, 54.321};
+	return bestLap;
 }
 
 std::vector<trackTimeByKart> ServerCore::ExtractInfoFromFile(std::ifstream& stream) {
@@ -81,8 +86,40 @@ std::vector<trackTimeByKart> ServerCore::ExtractInfoFromFile(std::ifstream& stre
 			lapTimes.emplace_back(std::stoi(kart), convertToSeconds(date));
 		}
 		else {
-			std::cout << "Not interesting line: " << oneLine;
+			std::cout << "Not interesting line: " << oneLine << "\n";
 		}
 	}
 	return lapTimes;
+}
+
+trackTimeByKart ServerCore::GetBestLap(const std::vector<trackTimeByKart>& laps) {
+	std::map<int, double> bestLapByKarts;
+	std::map<int, double> previousLapByKarts;
+
+	for (const auto& lap : laps) {
+		if (previousLapByKarts.find(lap.first) != previousLapByKarts.end()) {
+			// kart already finished one lap
+			double lapTime = lap.second - previousLapByKarts.at(lap.first);
+			if (bestLapByKarts.find(lap.first) == bestLapByKarts.end()) {
+				// no best lap yet
+				bestLapByKarts.insert({lap.first, lapTime});
+			} else if (lapTime < bestLapByKarts.at(lap.first)) {
+				// better than before
+				bestLapByKarts[lap.first] = lapTime;
+			}
+			// setting prevoius lap to current
+			previousLapByKarts[lap.first] = lap.second;
+		}
+		else {
+			previousLapByKarts.insert(lap);
+		}
+	}
+
+	trackTimeByKart bestLap {0, std::numeric_limits<double>::max()};
+	for (const auto& kartLap : bestLapByKarts) {
+		if (bestLap.second > kartLap.second) {
+			bestLap = kartLap;
+		}
+	}
+	return bestLap;
 }

@@ -18,6 +18,5 @@ public:
 
 protected:
 	std::vector<trackTimeByKart> ExtractInfoFromFile(std::ifstream& stream);
-private:
-	trackTimeByKart bestLap;
+	trackTimeByKart GetBestLap(const std::vector<trackTimeByKart>& laps);
 };
