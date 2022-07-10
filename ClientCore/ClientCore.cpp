@@ -11,7 +11,7 @@ ClientCore::ClientCore() {
 }
 
 void ClientCore::AddKart(int kartNumber) {
-	karts.push_back(kartNumber);
+	kartNumberBuffer.insert(kartNumber);
 }
 
 std::string ClientCore::RetrieveBestLap() {
@@ -20,4 +20,11 @@ std::string ClientCore::RetrieveBestLap() {
 
 std::string ClientCore::RetrieveBestKart() {
 	return "Kart 2";
+}
+
+void ClientCore::StartNewRace() {
+	race.emplace_back(Race(lapNumber, kartNumberBuffer));
+
+	lapNumber = 0;
+	kartNumberBuffer.clear();
 }

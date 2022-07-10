@@ -9,6 +9,7 @@ class Race
 {
 public:
 	Race(int laps, std::initializer_list<int> karts) : lapLimit(laps), kartNumbers(karts) { };
+	Race(int laps, std::set<int> karts) : lapLimit(laps), kartNumbers(karts) { };
 	~Race() = default;
 
 	void StartRace();
