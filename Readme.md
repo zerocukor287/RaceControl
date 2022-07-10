@@ -9,3 +9,6 @@ Compatible with Visual Studio 2022. Open the `RaceControl.sln` file, select any 
 # Limitations
 - The `ServerTest` only passes if the test data placed under `D:\MYLAPS_2\ServerTest\TestData\karttimes.csv`
 - "Midnight" races handled wrong. If someone starts its lap before midnight and finishes afterwards, negative lap time calculated.
+- Connection failed to set up.. perhaps firewall issue.
+- Server cannot send back the result
+- Couldn't test with multiple clients, or concurrent way
