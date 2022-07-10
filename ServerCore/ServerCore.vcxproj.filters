@@ -24,6 +24,9 @@
     <ClInclude Include="ServerCore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\CommonIncludes\RaceDefines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ServerCore.cpp">

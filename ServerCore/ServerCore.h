@@ -4,8 +4,7 @@
 #include <string>
 #include <iosfwd>
 #include <vector>
-
-using trackTimeByKart = std::pair<int, double>;
+#include "RaceDefines.h"
 
 class ServerCore
 {
