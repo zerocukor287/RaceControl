@@ -1,4 +1,4 @@
-# Rece Control Software
+# Race Control Software
 This system consist of 2 separate executables available at sites, and 2 additional test exes.
 The Client is responsible to handle Race events, including kart managing, time measurement, writing the summary to a `*.csv` file.
 The Server reads the `*.csv` file and calculate the best kart with its best lap.
