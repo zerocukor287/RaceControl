@@ -32,9 +32,9 @@ void ServerCore::Listen() {
 	SOCKADDR_IN socketIn;
 
 	socketIn.sin_addr.s_addr = htonl(INADDR_ANY);
-	socketIn.sin_family = AF_UNIX;	// local networks
-	socketIn.sin_port = htons(1234);
-	sock = socket(AF_UNIX, SOCK_STREAM, 0);
+	socketIn.sin_family = AF_INET;	// local networks
+	socketIn.sin_port = htons(portNumber);
+	sock = socket(AF_INET, SOCK_STREAM, 0);
 	if (sock == INVALID_SOCKET) {
 		std::cout << "Invalid socket " << WSAGetLastError();
 		WSACleanup();
@@ -58,7 +58,7 @@ void ServerCore::Listen() {
 		if (sock != INVALID_SOCKET) {
 			recv(sock, buffer, sizeof(buffer), 0);
 			closesocket(sock);
-			std::cout << buffer << std::endl;
+			auto summary = EvaluateRaceSummary(buffer);
 		}
 		else {
 		}
