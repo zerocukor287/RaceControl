@@ -24,12 +24,18 @@
     <ClInclude Include="ClientCore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Race.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClientCore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Race.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
