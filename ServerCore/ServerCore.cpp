@@ -11,12 +11,60 @@
 #include <map>
 #include <cassert>
 
+#include <WinSock2.h>
+#ifdef max	// winsock mess it up
+#undef max
+#endif
+
 ServerCore::ServerCore() {
 
 }
 
 void ServerCore::Listen() {
+	int wsaStatus;
+	WSADATA WSAData;
+	wsaStatus = WSAStartup(MAKEWORD(2, 0), &WSAData);
+	if (wsaStatus != NO_ERROR) {
+		std::cout << "WSA Startup failed with error : " << wsaStatus;
+	}
 
+	SOCKET sock;
+	SOCKADDR_IN socketIn;
+
+	socketIn.sin_addr.s_addr = htonl(INADDR_ANY);
+	socketIn.sin_family = AF_UNIX;	// local networks
+	socketIn.sin_port = htons(1234);
+	sock = socket(AF_UNIX, SOCK_STREAM, 0);
+	if (sock == INVALID_SOCKET) {
+		std::cout << "Invalid socket " << WSAGetLastError();
+		WSACleanup();
+		return;
+	}
+
+	auto bindReturn = bind(sock, (SOCKADDR*)&socketIn, sizeof(socketIn));
+	if (bindReturn > 0) {
+		std::cout << "Cannot bind port " << WSAGetLastError();
+		WSACleanup();
+		return;
+	}
+
+	char buffer[255];
+
+	listen(sock, 1);
+	while (true) {
+
+		int sizeof_sin = sizeof(socketIn);
+		sock = accept(sock, (SOCKADDR*)&socketIn, &sizeof_sin);
+		if (sock != INVALID_SOCKET) {
+			recv(sock, buffer, sizeof(buffer), 0);
+			closesocket(sock);
+			std::cout << buffer << std::endl;
+		}
+		else {
+		}
+	}
+
+	WSACleanup();
 }
 
 static bool onlyNumeric(const std::string& str) {
