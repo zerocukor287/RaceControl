@@ -144,6 +144,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             case IDM_EXIT:
                 DestroyWindow(hWnd);
                 break;
+            case IDM_STARTRACE:
+                clientCore.SetLapNumber(5);
+                clientCore.AddKart({1,2,3,4});
+                clientCore.StartNewRace();
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);
             }

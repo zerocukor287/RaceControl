@@ -10,8 +10,10 @@ public:
 	~ClientCore() = default;
 	
 	void AddKart(int kartNumber);
+	void AddKart(std::initializer_list<int> kartNumbers);
 	void SetLapNumber(int newLapNumber) noexcept { lapNumber = newLapNumber; };
 	void StartNewRace();
+	void NotifyServer(std::string content);
 	std::string RetrieveBestLap();
 	std::string RetrieveBestKart();
 
